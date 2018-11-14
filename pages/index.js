@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import MainLayout from '../layouts/MainLayout'
 
 
 class Index extends React.Component {
@@ -14,7 +15,7 @@ class Index extends React.Component {
   render () {
     return (
       <div>
-        
+        <MainLayout />
       </div>
     )
   }
