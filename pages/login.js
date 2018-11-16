@@ -33,7 +33,6 @@ class Login extends Component {
   }
 
   loginSubmit(e) {
-    console.log(auth)
     e.preventDefault()
     let submit = e.target.querySelector('[type=submit]')
     submit.disabled = true
@@ -43,7 +42,7 @@ class Login extends Component {
     auth.login(this.state)
     .then(res => {
       if(res.success){
-        browserHistory.pushRoute('/dashboard')
+        Router.pushRoute('/')
       }
     })
     .catch(err => {
