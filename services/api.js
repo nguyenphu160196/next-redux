@@ -20,11 +20,11 @@ let checkTime = {}
 export const API = ({method='GET',route='',data={},params={},responseType='', cache}) => {
 	let time = new Date().getTime()
 	if(!Object.keys(checkTime).length){
-		turnOnProgress()
+		turnonProgress()
 		
 	}
 	checkTime = {}
-	checkTime[time] = turnOffProgress
+	checkTime[time] = turnoffProgress
 	return new Promise((resolve,reject) => {
 		return axios({
 			baseURL: server_address,

@@ -1,10 +1,18 @@
 import React from 'react'
-import Link from 'next/router'
+import {Link, Router} from '../router'
 import Auth from '../services/auth'
-const auth = new Auth()
-const isBrowser = typeof window !== 'undefined'
+let auth, role
 
 class SideBar extends React.Component {
+
+  static async getInitialProps({ req }) {
+    
+  }
+
+  constructor(props){
+    super(props);
+  }
+
   state ={
     menuRoute: [
       {
@@ -52,43 +60,46 @@ class SideBar extends React.Component {
   }
 
   componentDidMount(){
+    auth = new Auth()
     auth.getToken()
+    role = auth.role()
   }
 
   checkActive(url) {
-    // const {pathname} = this.props.location
+    console.log(url)
     let active = false
-    // if(pathname.startsWith(url)) {
-    //   active = true
-    // }
-    // if(pathname.startsWith("/new") && pathname.includes(url)) {
-    //   active = true
-    // }
+    let {pathname} = Router
+    if(pathname.startsWith(url)) {
+      active = true
+    }
+    if(pathname.startsWith("/new") && pathname.includes(url)) {
+      active = true
+    }
     return active
   }
 
   render () {
-    // const role={}
-    // if(isBrowser){
-    //   role = auth.role()
-    // }
     const {menuRoute} = this.state;
     return (
       <div className='side-bar'>
-        {/*<div className='side-list'>
+        <div className='side-list'>
           {menuRoute.map((k,i) => (
             <span key={i}>
               {!!(!k.role || (!!role && k.role.includes(role.name))) &&
-                <Link className={this.checkActive(k.url) ? "node-active" : ""} href={k.url} activeClassName={'node-active'}>
+                /*<Link className={this.checkActive(k.url) ? "node-active" : ""} route={k.url} activeClassName={'node-active'}>
                   <div className='side-node'>
                     <div className={'side-icon side-icon-' + k.className}></div>
                     <div className='side-name'><p>{k.name}</p></div>
                   </div>
-                </Link>
+                </Link>*/
+                <div className='side-node'>
+                  <div className={'side-icon side-icon-' + k.className}></div>
+                  <div className='side-name'><p>{k.name}</p></div>
+                </div>
               }
             </span>
           ))}
-        </div>*/}
+        </div>
       </div>
     )
   }

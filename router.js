@@ -6,6 +6,6 @@ routes.add(pattern, page)
 routes.add(object)
 */
 routes
-.add('index','/','index')
-.add('home','/home','home')
-.add('login','/login','login')
+.add('/','index')
+.add('/home','home')
+.add('/login','login')

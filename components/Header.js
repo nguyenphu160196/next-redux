@@ -3,9 +3,13 @@ import Router from 'next/router'
 import {Grid,Row,Col, Modal, Button, FormControl, ProgressBar} from 'react-bootstrap'
 import {updateUser, getFile, uploadFile} from '../services/api'
 import Auth from '../services/auth'
-const auth = new Auth()
+let auth, user
 
 class Header extends React.Component {
+
+  static async getInitialProps({ req }) {
+    
+  }
 
   constructor(props){
     super(props);
@@ -17,8 +21,9 @@ class Header extends React.Component {
   };
 
   componentDidMount(){
+    auth = new Auth()
     auth.getToken()
-    let user = auth.getInfo()
+    user = auth.getInfo()
     if(!!user.avatar){
       new Promise(resolve => {
         getFile(user.avatar.path)
@@ -33,7 +38,6 @@ class Header extends React.Component {
   }   
 
   updateProfile(){
-    let user = auth.getInfo()
     let {file, avatar} = this.state
     let body = {
       "_id": user._id,
@@ -75,7 +79,6 @@ class Header extends React.Component {
   }
 
   render () {
-    let user = auth.getInfo()
     let {avatar, name, tel, email, edit, show, file} = this.state
     let {main} = this.props
     return (
@@ -163,16 +166,6 @@ class Header extends React.Component {
                     <Row className="display-flex align-items-center">
                       <Col xs={1} md={1} style={{display: !edit && 'none'}} className="label-letter">Email: </Col>
                       <Col xs={11} md={11} style={{display: !edit && 'none'}}>{!!user && user.email}</Col>
-                      {/* <Col xs={11} md={11} style={{display: state.edit && 'none'}}>
-                        <FormControl 
-                          type="text"
-                          defaultValue={user.email}
-                          inputRef={input => {this.email = input;}}
-                          onChange={e => {
-                            this.setState({email: e.target.value});
-                          }}
-                        />
-                      </Col> */}
                     </Row>
                   </Grid>
               </Modal.Body>
@@ -187,10 +180,11 @@ class Header extends React.Component {
                 }}
                 >Sign out</Button>
                 <Button className={edit ? 'btn btn-primary' : 'btn btn-success'}
-                    style={{display: !!user && !!user.role && !!user.role[0].name && user.role[0].name !== 'admin' && 'none',
+                    style={{
+                      display: !!user && !!user.role && !!user.role[0].name && user.role[0].name !== 'admin' && 'none',
                         marginRight: 10,
                         padding: '6px 20px'
-                    }} 
+                    }}
                     disabled={
                         name == ''
                       || tel == ''
@@ -230,5 +224,6 @@ class Header extends React.Component {
     )
   }
 }
+
 
 export default Header
